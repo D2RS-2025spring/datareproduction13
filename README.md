@@ -1,4 +1,4 @@
-# 全球样本分布地图可视化项目
+# （一）全球样本分布地图可视化项目
 来源：Liao H, Liu C, Zhou S, et al. Prophage-encoded antibiotic resistance genes are enriched in human-impacted environments. Nature Communications. 2024;15(1):8315. doi:10.1038/s41467-024-52450-y
 图4a
 ## 项目概述
@@ -71,7 +71,64 @@ p <- ggplot() +
 
 ###  显示地图
 print(p)
+###  显示地图 改进后的版本
+map_plot <- ggplot() +
+#### 添加蓝色海洋背景
+  annotate("rect", xmin = -180, xmax = 180, ymin = -90, ymax = 90, 
+           fill = "#cceeff", color = NA) +
+####  绘制世界地图轮廓（浅灰色填充，灰色边框）
+  geom_polygon(data = world, aes(x = long, y = lat, group = group),
+               fill = "#dedede", color = "gray60", size = 0.2) +
+  
+ ####  添加数据点（圆形，根据habitat着色，根据number调整大小）
+  geom_point(data = data, aes(x = longitude, y = latitude, fill = habitat, size = number),
+             shape = 21, alpha = 0.7, stroke = 0.5, color = "white") +
+  
+ ####  设置生境类型的颜色映射
+  scale_fill_manual(values = habitat_colors, name = "生境类型") +
+  
+ ####  设置点大小范围
+  scale_size_continuous(range = c(2, 8), name = "数量") +
+  
+  ####  设置坐标轴范围和标签
+  scale_y_continuous(
+    limits = c(-90, 90), 
+    expand = expansion(mult = c(0, 0)),
+    name = "纬度"
+  ) +
+  scale_x_continuous(
+    limits = c(-180, 180), 
+    expand = expansion(mult = c(0, 0)),
+    name = "经度"
+  ) +
+  
+ ####  设置主题和样式
+  theme_minimal() +
+  theme(
+    panel.grid = element_line(color = "gray90", size = 0.2),
+    axis.title = element_text(size = 12, face = "bold"),
+    axis.text = element_text(size = 10, color = "gray30"),
+    legend.title = element_text(size = 11, face = "bold"),
+    legend.text = element_text(size = 9),
+    legend.position = "bottom",
+    legend.box = "horizontal",
+    legend.key.size = unit(0.8, "lines"),
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 10, hjust = 0.5, color = "gray40"),
+    plot.margin = margin(10, 10, 10, 10)
+  ) +
+  
+ ####  添加标题和副标题
+  labs(
+    title = "全球生境分布与数量可视化",
+    subtitle = "数据来源: map-full.txt"
+  )
 
-###  保存结果
-ggsave('map.pdf', p, width = 11, height = 5)
-ggsave("C:/Users/17459/Desktop/test.png", plot = p)
+#### 显示地图
+print(map_plot)
+
+####  保存地图为不同格式
+save_path <- "C:/Users/17459/Desktop/"  
+ggsave(paste0(save_path, "map_improved.pdf"), map_plot, width = 11, height = 5, dpi = 300)
+ggsave(paste0(save_path, "map_improved.png"), map_plot, width = 11, height = 5, dpi = 300)
+ggsave(paste0(save_path, "map_improved.tif"), map_plot, width = 11, height = 5, dpi = 300)
