@@ -1,8 +1,8 @@
-  ```{R}
+```{R}
 # (二)基因表达与伪时间轨迹的相关性分析及显著性
-来源：Lee E. Korshoj & Tammy Kielian.(2024).Bacterial single-cell RNA sequencing captures biofilm transcriptional heterogeneity and differential responses to immune pressure.Nature Communications,15(1),10184-10184. DOI:10.1038/s41467-024-54581-8                     
+来源：Lee E. Korshoj & Tammy Kielian.(2024).Bacterial single-cell RNA sequencing captures biofilm transcriptional heterogeneity and differential responses to immune pressure.Nature Communications,15(1),10184-10184. DOI:10.1038/s41467-024-54581-8                       
 # 加载必要的包
-if (!requireNamespace("openxlsx", quietly = TRUE)) install.packages("openxlsx")    
+if (!requireNamespace("openxlsx", quietly = TRUE)) install.packages("openxlsx")      
 if (!requireNamespace("ggplot2", quietly = TRUE)) install.packages("ggplot2")  
 if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr")  
 if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr")    
@@ -33,11 +33,11 @@ data_long$Gene <- factor(data_long$Gene, levels = gene_order)
 # 计算相关系数和p值
 calculate_cor <- function(gene) {
   model <- lm(Expression ~ Pseudotime, data = data_long[data_long$Gene == gene, ])
-  r <- cor(data_long[data_long$Gene == gene, c("Pseudotime", "Expression")])[1,2]
+  r <- cor(data_long[data_long$Gene == gene, c("Pseudotime", "Expression")])[1,2]  
   p_value <- summary(model)$coefficients[2,4]
   return(c(r = r, p_value = p_value))
 }
-results <- sapply(gene_order, calculate_cor, simplify = "data.frame") %>% t() %>% as.data.frame()
+results <- sapply(gene_order, calculate_cor, simplify = "data.frame") %>% t() %>% as.data.frame()    
 results$Gene <- gene_order
 results$Gene <- factor(results$Gene, levels = gene_order)
 
@@ -106,10 +106,8 @@ final_plot <- ggdraw() +
   draw_label("Normalized Expression", x = 0.02, y = 0.5, size = 14, angle = 90, fontface = "bold", hjust = 0)  # 调整y轴标签位置
 
 # 显示最终图形
-print(final_plot)
+print(final_plot)  
 ```
 
-```{R}
 # 保存图形（调整高度以适应内容）
 ggsave("combined_gene_plots（6）.png", final_plot, width = 8, height = 10, dpi = 300)
-```
