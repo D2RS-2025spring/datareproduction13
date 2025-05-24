@@ -1,0 +1,30 @@
+文献：Accelerated waning of the humoral response to COVID-19 vaccines in obesity，Fig. 4c: Third-dose COVID-19 vaccine-induced immunity in individuals with severe obesity.
+代码：
+mydata <- data.frame(
+  id = c(1:12, 1:12),
+  visit_times = c(rep("V3D28", 12), rep("V3D105", 12)),
+  NT50 = c(820, 1160, 5315, 1528, 4010, 3540, 930, 2198, 1700, 940, 3570, 940,
+           380, 1010, 5165, 1590, 2810, 1460, 900, 2320, 620, 430, 2690, 560))
+
+mydata
+# 载入R包
+library(ggplot2)
+
+# 作图
+ggplot(mydata, aes(x = visit_times, y = NT50, group = id)) +
+  geom_point(size = 1.5) + # 点
+  geom_line(linetype = "dashed") + # 连接线
+  geom_hline(yintercept = 10, linetype = "dotted") +
+  scale_x_discrete(limits = c("V3D28", "V3D105")) +
+  scale_y_log10(breaks = c(1, 10, 100, 1000, 10000, 100000), limits = c(1, 100000), # log10后的y轴
+                expand = c(0, 0), labels = c("1", "10", "100", "1,000", "10,000", "100,000")) +
+  theme_classic() +
+  theme(plot.title = element_text(face = "bold", size = 16, hjust = -0.3),
+        plot.subtitle = element_text(size = 14, hjust = 0.5),
+        axis.text.x = element_text(size = 11),
+        axis.line = element_line(linewidth = 0.2),
+        legend.position = "none") +
+  labs(title = "c",
+       subtitle = "Normal BMI",
+       x = "",
+       y = expression("NT"["50"]))
