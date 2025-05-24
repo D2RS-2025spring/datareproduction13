@@ -250,11 +250,11 @@ create_gene_plot <- function(gene_name) {
       axis.ticks.length = unit(0.15, "cm"),
       strip.background = element_blank(),
       strip.text = element_blank(),
-      ## 设置背景为白色
+#### 设置背景为白色
       panel.background = element_rect(fill = "white"),
       plot.background = element_rect(fill = "white", color = NA)
     ) +
-    ## 添加分两行的黑色注释
+####  添加分两行的黑色注释
     annotate("text", 
              x = max(gene_data$Pseudotime) * 0.95, 
              y = max(gene_data$Expression) * 0.95, 
@@ -279,9 +279,9 @@ combined_plot <- plot_grid(plotlist = gene_plots, ncol = 1, align = "v", axis = 
 
 ### 添加共同的x轴和y轴标签（恢复原有间距）
 final_plot <- ggdraw() +
-  draw_plot(combined_plot, x = 0.05, x = 0.05, y = 0.08,, width = 0.9, height = 0.85) +  # 调整图表位置和大小
-  draw_label("Pseudotime", x = 0.5, y = 0.02, size = 14, fontface = "bold", vjust = 0) +  # 调整x轴标签位置
-  draw_label("Normalized Expression", x = 0.02, y = 0.5, size = 14, angle = 90, fontface = "bold", hjust = 0)  # 调整y轴标签位置
+  draw_plot(combined_plot, x = 0.05, x = 0.05, y = 0.08,, width = 0.9, height = 0.85) + 
+  draw_label("Pseudotime", x = 0.5, y = 0.02, size = 14, fontface = "bold", vjust = 0) +  
+  draw_label("Normalized Expression", x = 0.02, y = 0.5, size = 14, angle = 90, fontface = "bold", hjust = 0)  
  ### 显示最终图形
 print(final_plot) 
 
@@ -341,18 +341,18 @@ labs(...)设置图形标题为 “c” ，副标题为 “Normal BMI” ，x轴�
 ## 代码解析
 这段代码使用 R 语言创建并绘制了一个热图，用于展示蛋白质表达数据在不同簇之间的分布情况，与文献中的 Fig. 3 免疫反应分析相关。
 ### 数据准备
- 创建数据
+ ####  调整图表位置和大小创建数据
 set.seed(1288) # 让随机数据可重复
 protein_expression <- matrix(runif(90), ncol = 5)
 
-修改列和行的名称
+####  调整图表位置和大小修改列和行的名称
 colnames(protein_expression) <- paste("Cluster", 1:5, sep = "")
 rownames(protein_expression) <- paste("Protein", 1:18, sep = "")
 
- 转化成matrix格式的数据
+ ####  调整图表位置和大小转化成matrix格式的数据
 mydata <- as.matrix(protein_expression)
 
-标签变量
+####  调整图表位置和大小标签变量
 labs <- colnames(mydata)
 set.seed(1288)：设置随机数种子，确保生成的随机数据可重复。
 matrix(runif(90), ncol = 5)：生成一个 18 行 5 列的矩阵，包含 90 个均匀分布的随机数，模拟 18 种蛋白质在 5 个簇中的表达量。
