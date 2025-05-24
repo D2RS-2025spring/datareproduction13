@@ -176,3 +176,120 @@ ggplot(mydata, aes(x = dose, y = values, colour = sex, fill = sex)) +
        y = "标准化TRBV9 \n 比例, RT-PCR",
        fill = "",
        colour = "")
+# （三）基因表达与伪时间轨迹的相关性分析及显著性
+来源：Lee E. Korshoj & Tammy Kielian. (2024). Bacterial single-cell RNA sequencing captures biofilm transcriptional heterogeneity and differential responses to immune pressure. Nature Communications, 15(1), 10184-10184. DOI:10.1038/s41467-024-54581-8
+## 代码详情
+### 加载必要的包
+if (!requireNamespace("openxlsx", quietly = TRUE)) install.packages("openxlsx") 
+if (!requireNamespace("ggplot2", quietly = TRUE)) install.packages("ggplot2") 
+if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr") 
+if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr") 
+if (!requireNamespace("cowplot", quietly = TRUE)) install.packages("cowplot") 
+
+library(openxlsx)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(cowplot)
+
+### 读取Excel数据
+data <- read.xlsx("C:/Users/11443/Desktop/41467_2024_54581_MOESM22_ESM(1).xlsx", 
+                  sheet = "Figure 3F")
+
+### 长格式转换
+data_long <- pivot_longer(data, 
+                         cols = -Pseudotime, 
+                         names_to = "Gene", 
+                         values_to = "Expression")
+
+### 定义基因顺序和颜色
+gene_order <- c("psmβ1", "esaG", "aroB", "dnaA", "pgk", "rpoB")
+gene_colors <- c("psmβ1" = "red", "esaG" = "red", "aroB" = "red", 
+                 "dnaA" = "blue", "pgk" = "blue", "rpoB" = "blue")
+data_long$Gene <- factor(data_long$Gene, levels = gene_order)
+
+### 计算相关系数和p值
+calculate_cor <- function(gene) {
+  model <- lm(Expression ~ Pseudotime, data = data_long[data_long$Gene == gene, ])
+  r <- cor(data_long[data_long$Gene == gene, c("Pseudotime", "Expression")])[1,2] 
+  p_value <- summary(model)$coefficients[2,4]
+  return(c(r = r, p_value = p_value))
+}
+results <- sapply(gene_order, calculate_cor, simplify = "data.frame") %>% t() %>% as.data.frame() 
+results$Gene <- gene_order
+results$Gene <- factor(results$Gene, levels = gene_order)
+
+### 格式化p值并生成两行注释
+results$p_value_formatted <- ifelse(results$p_value < 1e-300, "<1.0E-300", sprintf("%.3e", results$p_value))
+results$annotations <- with(results, {
+  paste0(Gene, "\nr=", sprintf("%.3f", r), "\np-value=", p_value_formatted)
+})
+
+### 创建单个基因的图形函数
+create_gene_plot <- function(gene_name) {
+  gene_data <- data_long %>% filter(Gene == gene_name)
+  annotation_text <- results %>% filter(Gene == gene_name) %>% pull(annotations)
+  
+  ### 判断是否为最后一个基因（显示x轴）
+  show_x_axis <- gene_name == gene_order[length(gene_order)]
+  
+  p <- ggplot(gene_data, aes(x = Pseudotime, y = Expression)) +
+    geom_line(aes(color = Gene), linewidth = 1.2) +
+    scale_color_manual(values = gene_colors[gene_name]) +
+    theme_bw() +
+    labs(x = "", y = "") +
+    theme(
+      legend.position = "none",
+      panel.grid = element_blank(),
+      panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5),
+      panel.spacing = unit(0, "lines"),  # 图间无间距
+      plot.margin = unit(c(0.05, 0.1, 0.05, 0.1), "inches"),  # 图内边距
+      axis.title = element_blank(),
+      axis.text = element_text(size = 10, color = "black"),
+      axis.text.x = if(show_x_axis) element_text(angle = 45, hjust = 1, size = 10) else element_blank(),
+      axis.ticks.length = unit(0.15, "cm"),
+      strip.background = element_blank(),
+      strip.text = element_blank(),
+      ## 设置背景为白色
+      panel.background = element_rect(fill = "white"),
+      plot.background = element_rect(fill = "white", color = NA)
+    ) +
+    ## 添加分两行的黑色注释
+    annotate("text", 
+             x = max(gene_data$Pseudotime) * 0.95, 
+             y = max(gene_data$Expression) * 0.95, 
+             label = annotation_text, 
+             hjust = 1, 
+             vjust = 1, 
+             size = 3.5, 
+             color = "black",
+             lineheight = 0.8)
+  
+  return(p)
+}
+
+### 创建所有基因的图形列表
+gene_plots <- lapply(gene_order, create_gene_plot)
+
+### 组合图形（无间距，共用y轴）
+combined_plot <- plot_grid(plotlist = gene_plots, ncol = 1, align = "v", axis = "l", 
+                          rel_heights = rep(1, length(gene_order)), 
+                          scale = 1,  # 不缩放图形
+                          byrow = TRUE)
+
+### 添加共同的x轴和y轴标签（恢复原有间距）
+final_plot <- ggdraw() +
+  draw_plot(combined_plot, x = 0.05, x = 0.05, y = 0.08,, width = 0.9, height = 0.85) +  # 调整图表位置和大小
+  draw_label("Pseudotime", x = 0.5, y = 0.02, size = 14, fontface = "bold", vjust = 0) +  # 调整x轴标签位置
+  draw_label("Normalized Expression", x = 0.02, y = 0.5, size = 14, angle = 90, fontface = "bold", hjust = 0)  # 调整y轴标签位置
+ ### 显示最终图形
+print(final_plot) 
+
+### 保存图形（调整高度以适应内容）
+ggsave("combined_gene_plots（6）.png", final_plot, width = 8, height = 10, dpi = 300)
+## 代码说明
+加载包：检查并加载所需的 R 包，包括用于读取 Excel 文件的openxlsx、绘图的ggplot2、数据重塑的tidyr、数据处理的dplyr以及图形组合的cowplot。
+数据读取与处理：从指定 Excel 文件的 “Figure 3F” 工作表读取数据，然后将数据从宽格式转换为长格式，方便后续分析和绘图。
+基因设置：定义基因的顺序和颜色，将基因列转换为因子，确保绘图时基因按指定顺序呈现。
+相关性计算：编写函数计算每个基因的表达量与伪时间轨迹之间的相关系数和 p 值，并将结果整理成数据框。
+图形绘制：创建绘制单个基因图形的函数，设置图形的样式、注释等；然后循环绘制所有基因的图形，并将它们组合成一个多图，最后添加共用的坐标轴标签，得到最终图形并保存。
