@@ -293,3 +293,45 @@ ggsave("combined_gene_plots（6）.png", final_plot, width = 8, height = 10, dpi
 基因设置：定义基因的顺序和颜色，将基因列转换为因子，确保绘图时基因按指定顺序呈现。
 相关性计算：编写函数计算每个基因的表达量与伪时间轨迹之间的相关系数和 p 值，并将结果整理成数据框。
 图形绘制：创建绘制单个基因图形的函数，设置图形的样式、注释等；然后循环绘制所有基因的图形，并将它们组合成一个多图，最后添加共用的坐标轴标签，得到最终图形并保存。
+# （四）Third-dose COVID-19 vaccine-induced immunity in individuals with severe obesity.
+文献：Accelerated waning of the humoral response to COVID-19 vaccines in obesity，Fig. 4c: Third-dose COVID-19 vaccine-induced immunity in individuals with severe obesity.
+## 代码解析
+### 数据构建
+mydata <- data.frame(
+  id = c(1:12, 1:12),
+  visit_times = c(rep("V3D28", 12), rep("V3D105", 12)),
+  NT50 = c(820, 1160, 5315, 1528, 4010, 3540, 930, 2198, 1700, 940, 3570, 940,
+           380, 1010, 5165, 1590, 2810, 1460, 900, 2320, 620, 430, 2690, 560))
+### 载入 R 包
+library(ggplot2)
+加载ggplot2包，这是 R 语言中用于创建数据可视化图形的强大工具包，后续绘图将基于此包函数实现。
+### 绘图操作
+ggplot(mydata, aes(x = visit_times, y = NT50, group = id)) +
+  geom_point(size = 1.5) + # 点
+  geom_line(linetype = "dashed") + # 连接线
+  geom_hline(yintercept = 10, linetype = "dotted") +
+  scale_x_discrete(limits = c("V3D28", "V3D105")) +
+  scale_y_log10(breaks = c(1, 10, 100, 1000, 10000, 100000), limits = c(1, 100000), # log10后的y轴
+                expand = c(0, 0), labels = c("1", "10", "100", "1,000", "10,000", "100,000")) +
+  theme_classic() +
+  theme(plot.title = element_text(face = "bold", size = 16, hjust = -0.3),
+        plot.subtitle = element_text(size = 14, hjust = 0.5),
+        axis.text.x = element_text(size = 11),
+        axis.line = element_line(linewidth = 0.2),
+        legend.position = "none") +
+  labs(title = "c",
+       subtitle = "Normal BMI",
+       x = "",
+       y = expression("NT"["50"]))
+初始设置：以mydata为数据源，ggplot()函数设定x轴为visit_times ，y轴为NT50 ，并通过group = id将数据按个体分组，为后续绘图做准备。
+添加图形元素
+geom_point(size = 1.5)添加数据点，大小设为 1.5 ，在图中展示每个个体在不同访视时间的 NT50 值。
+geom_line(linetype = "dashed")添加虚线连接各数据点，体现同一id个体在不同时间点 NT50 的变化趋势。
+geom_hline(yintercept = 10, linetype = "dotted")添加水平虚线，y轴截距为 10 ，可能是作为参考线，用于判断 NT50 值与特定水平的关系。
+坐标轴设置
+scale_x_discrete(limits = c("V3D28", "V3D105"))设置x轴为离散型，展示的水平轴标签为 “V3D28” 和 “V3D105” 。
+scale_y_log10(...)将y轴设为以 10 为底的对数刻度。指定刻度断点（breaks ）、范围（limits ） ，expand设为c(0, 0)使刻度范围紧密贴合数据，labels自定义刻度标签展示样式。
+图形主题和标签设置
+theme_classic()设定经典主题样式，去除不必要的图形背景元素。
+theme(...)进一步微调主题，设置标题加粗、大小及水平位置（hjust ） ，副标题大小和水平位置，x轴文本大小，坐标轴线条宽度，移除图例。
+labs(...)设置图形标题为 “c” ，副标题为 “Normal BMI” ，x轴无标签，y轴标签为 “NT50” ，其中expression()函数用于展示特殊格式文本。
