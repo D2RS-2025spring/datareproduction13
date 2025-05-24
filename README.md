@@ -50,9 +50,9 @@ world <- map_data("world")
 
 ### 创建地图
 p <- ggplot() +
-  #### 制世界地图背景
+ ####  制世界地图背景
   geom_polygon(data = world, aes(x = long, y = lat, group = group), fill = "#dedede") +
-  ####  添加数据点
+ ####  添加数据点
   geom_point(data = data, aes(x = longitude, y = latitude, fill = habitat, size = number), 
              shape = 21, alpha = 0.6) +
   ####  设置颜色方案
@@ -323,6 +323,7 @@ ggplot(mydata, aes(x = visit_times, y = NT50, group = id)) +
        subtitle = "Normal BMI",
        x = "",
        y = expression("NT"["50"]))
+   ### 具体说明
 初始设置：以mydata为数据源，ggplot()函数设定x轴为visit_times ，y轴为NT50 ，并通过group = id将数据按个体分组，为后续绘图做准备。
 添加图形元素
 geom_point(size = 1.5)添加数据点，大小设为 1.5 ，在图中展示每个个体在不同访视时间的 NT50 值。
@@ -335,3 +336,46 @@ scale_y_log10(...)将y轴设为以 10 为底的对数刻度。指定刻度断点
 theme_classic()设定经典主题样式，去除不必要的图形背景元素。
 theme(...)进一步微调主题，设置标题加粗、大小及水平位置（hjust ） ，副标题大小和水平位置，x轴文本大小，坐标轴线条宽度，移除图例。
 labs(...)设置图形标题为 “c” ，副标题为 “Normal BMI” ，x轴无标签，y轴标签为 “NT50” ，其中expression()函数用于展示特殊格式文本。
+# （五）Immune response to third (booster) dose COVID-19 vaccination
+文献：Accelerated waning of the humoral response to COVID-19 vaccines in obesity，Fig. 3. Immune response to third (booster) dose COVID-19 vaccination. 
+## 代码解析
+这段代码使用 R 语言创建并绘制了一个热图，用于展示蛋白质表达数据在不同簇之间的分布情况，与文献中的 Fig. 3 免疫反应分析相关。
+### 数据准备
+ 创建数据
+set.seed(1288) # 让随机数据可重复
+protein_expression <- matrix(runif(90), ncol = 5)
+
+修改列和行的名称
+colnames(protein_expression) <- paste("Cluster", 1:5, sep = "")
+rownames(protein_expression) <- paste("Protein", 1:18, sep = "")
+
+ 转化成matrix格式的数据
+mydata <- as.matrix(protein_expression)
+
+标签变量
+labs <- colnames(mydata)
+set.seed(1288)：设置随机数种子，确保生成的随机数据可重复。
+matrix(runif(90), ncol = 5)：生成一个 18 行 5 列的矩阵，包含 90 个均匀分布的随机数，模拟 18 种蛋白质在 5 个簇中的表达量。
+列名设置为 "Cluster1" 到 "Cluster5"，行名设置为 "Protein1" 到 "Protein18"。
+### 热图绘制
+heatmap(mydata,
+        ColSideColors = c("blueviolet", "orange1", "limegreen", "firebrick1", "dodgerblue3"),
+        labCol = "", # 不显示列的label
+        add.expr = text(x = seq_along(labs), y = -0.2, srt = 0, # 重新调整列标签的位置和角度
+                        labels = labs, xpd = TRUE, cex = 1.5),
+        cexRow = 1.5) # 行标签的字体大小
+### 参数说明：
+ColSideColors：为每列（簇）指定不同的颜色，用于区分 5 个簇。
+labCol = ""：不显示默认的列标签。
+add.expr：通过text()函数自定义列标签的位置和样式：
+x = seq_along(labs)：标签位置沿 x 轴均匀分布。
+y = -0.2：标签位于热图底部（y 坐标为负值）。
+srt = 0：标签水平显示（旋转 0 度）。
+cex = 1.5：标签字体大小为默认的 1.5 倍。
+cexRow = 1.5：行标签（蛋白质名称）的字体大小为默认的 1.5 倍。
+### 可视化效果
+这个热图展示了 18 种蛋白质在 5 个簇中的表达情况：
+
+颜色条（ColSideColors）直观地区分了不同的簇。
+蛋白质名称显示在左侧，便于识别。
+列标签（簇名称）位于热图底部，水平排列且字体较大，提高可读性。
