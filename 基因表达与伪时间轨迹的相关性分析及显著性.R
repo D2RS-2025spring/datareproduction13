@@ -1,5 +1,5 @@
 ```{R}
-# (二)基因表达与伪时间轨迹的相关性分析及显著性
+# (三)基因表达与伪时间轨迹的相关性分析及显著性
 来源：Lee E. Korshoj & Tammy Kielian.(2024).Bacterial single-cell RNA sequencing captures biofilm transcriptional heterogeneity and differential responses to immune pressure.Nature Communications,15(1),10184-10184. DOI:10.1038/s41467-024-54581-8                       
 # 加载必要的包
 if (!requireNamespace("openxlsx", quietly = TRUE)) install.packages("openxlsx")
