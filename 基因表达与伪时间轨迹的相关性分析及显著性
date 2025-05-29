@@ -2,20 +2,22 @@
 # (二)基因表达与伪时间轨迹的相关性分析及显著性
 来源：Lee E. Korshoj & Tammy Kielian.(2024).Bacterial single-cell RNA sequencing captures biofilm transcriptional heterogeneity and differential responses to immune pressure.Nature Communications,15(1),10184-10184. DOI:10.1038/s41467-024-54581-8                       
 # 加载必要的包
-if (!requireNamespace("openxlsx", quietly = TRUE)) install.packages("openxlsx")      
-if (!requireNamespace("ggplot2", quietly = TRUE)) install.packages("ggplot2")  
-if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr")  
-if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr")    
-if (!requireNamespace("cowplot", quietly = TRUE)) install.packages("cowplot")  
+if (!requireNamespace("openxlsx", quietly = TRUE)) install.packages("openxlsx")
+if (!requireNamespace("ggplot2", quietly = TRUE)) install.packages("ggplot2")
+if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr")
+if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr")
+if (!requireNamespace("cowplot", quietly = TRUE)) install.packages("cowplot")
+if (!requireNamespace("here", quietly = TRUE)) install.packages("here")
 
 library(openxlsx)
 library(ggplot2)
 library(tidyr)
 library(dplyr)
 library(cowplot)
+library(here)
 
-# 读取Excel数据
-data <- read.xlsx("C:/Users/11443/Desktop/41467_2024_54581_MOESM22_ESM(1).xlsx", 
+# 读取Excel数据（使用相对路径）
+data <- read.xlsx(here::here("41467_2024_54581_MOESM22_ESM(1).xlsx"), 
                   sheet = "Figure 3F")
 
 # 长格式转换
@@ -107,7 +109,7 @@ final_plot <- ggdraw() +
 
 # 显示最终图形
 print(final_plot)  
-```
 
 # 保存图形（调整高度以适应内容）
 ggsave("combined_gene_plots（6）.png", final_plot, width = 8, height = 10, dpi = 300)
+```
