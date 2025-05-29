@@ -1,5 +1,5 @@
 # （一）全球样本分布地图可视化项目
-来源：Liao H, Liu C, Zhou S, et al. Prophage-encoded antibiotic resistance genes are enriched in human-impacted environments. Nature Communications. 2024;15(1):8315. doi:10.1038/s41467-024-52450-y
+来源：Liao H, Liu C, Zhou S, et al. Prophage-encoded antibiotic resistance genes are enriched in human-impacted environments. Nature Communications. 2024;15(1):8315. doi:10.1038/s41467-024-52450-y    
 图4a
 ## 项目概述
 本项目使用R语言创建全球分布图，展示不同栖息地类型（如动物养殖、食物、人类、土壤等）在全球的分布情况，并通过点的大小反映样本数量。
@@ -11,7 +11,7 @@
    ```r
    install.packages(c("maps", "ggplot2", "dplyr"))
  ## 数据说明
-数据文件：map-full.txt
+数据文件：map-full.txt  
 数据格式：制表符分隔的文本文件（TSV），包含以下列：
 longitude：经度坐标
 latitude：纬度坐标
@@ -31,7 +31,7 @@ setwd("C:/Users/17459/Documents")
 data <- read.delim("map-full.txt", header = T)
 
 ### 将habitat列转换为有序因子
-data$habitat <- factor(data$habitat, levels = c(
+data$habitat <- factor(data$habitat, levels = c(  
   'Animal husbandry',
   'Food',
   'Human',
@@ -74,7 +74,7 @@ print(p)
 ###  显示地图 改进后的版本
 map_plot <- ggplot() +
 #### 添加蓝色海洋背景
-  annotate("rect", xmin = -180, xmax = 180, ymin = -90, ymax = 90, 
+  annotate("rect", xmin = -180, xmax = 180, ymin = -90, ymax = 90,   
            fill = "#cceeff", color = NA) +
 ####  绘制世界地图轮廓（浅灰色填充，灰色边框）
   geom_polygon(data = world, aes(x = long, y = lat, group = group),
@@ -88,7 +88,7 @@ map_plot <- ggplot() +
   scale_fill_manual(values = habitat_colors, name = "生境类型") +
   
  ####  设置点大小范围
-  scale_size_continuous(range = c(2, 8), name = "数量") +
+  scale_size_continuous(range = c(2, 8), name = "数量") +  
   
   ####  设置坐标轴范围和标签
   scale_y_continuous(
@@ -180,21 +180,23 @@ ggplot(mydata, aes(x = dose, y = values, colour = sex, fill = sex)) +
 来源：Lee E. Korshoj & Tammy Kielian. (2024). Bacterial single-cell RNA sequencing captures biofilm transcriptional heterogeneity and differential responses to immune pressure. Nature Communications, 15(1), 10184-10184. DOI:10.1038/s41467-024-54581-8
 ## 代码详情
 ### 加载必要的包
-if (!requireNamespace("openxlsx", quietly = TRUE)) install.packages("openxlsx") 
-if (!requireNamespace("ggplot2", quietly = TRUE)) install.packages("ggplot2") 
-if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr") 
-if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr") 
-if (!requireNamespace("cowplot", quietly = TRUE)) install.packages("cowplot") 
+if (!requireNamespace("openxlsx", quietly = TRUE)) install.packages("openxlsx")  
+if (!requireNamespace("ggplot2", quietly = TRUE)) install.packages("ggplot2")
+if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr")
+if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr")
+if (!requireNamespace("cowplot", quietly = TRUE)) install.packages("cowplot")
+if (!requireNamespace("here", quietly = TRUE)) install.packages("here")
 
 library(openxlsx)
 library(ggplot2)
 library(tidyr)
 library(dplyr)
 library(cowplot)
+library(here)
 
-### 读取Excel数据
-data <- read.xlsx("C:/Users/11443/Desktop/41467_2024_54581_MOESM22_ESM(1).xlsx", 
-                  sheet = "Figure 3F")
+### 读取Excel数据（使用相对路径）
+data <- read.xlsx(here::here("41467_2024_54581_MOESM22_ESM(1).xlsx"),     
+                  sheet = "Figure 3F")  
 
 ### 长格式转换
 data_long <- pivot_longer(data, 
