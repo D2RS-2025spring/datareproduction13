@@ -261,5 +261,6 @@ final_plot <- grid.arrange(
 )
 
 # 保存带图例的组合图
-ggsave("检出率组合_with_legend.pdf", final_plot, width = 24, height = 22)
+ggsave("pAGR-detection-frequency.png", final_plot, device = cairo_pdf, width = 24, height = 22)
+
 
