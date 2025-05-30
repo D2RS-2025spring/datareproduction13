@@ -23,12 +23,19 @@ number：样本数量（用于控制点大小）
 library(maps)
 library(ggplot2)
 library(dplyr)
+library(here)
 
-### 设置工作目录（根据实际情况修改）
-setwd("C:/Users/17459/Documents")
+###  构建相对路径
+data_path <- here("data", "map-full.txt")
+
+### 检查文件是否存在
+if (!file.exists(data_path)) {
+  stop(paste("错误：文件不存在 -", data_path))
+}
 
 ### 读取数据
-data <- read.delim("map-full.txt", header = T)
+data <- read.delim(data_path, header = TRUE)
+
 
 ### 将habitat列转换为有序因子
 data$habitat <- factor(data$habitat, levels = c(  
@@ -71,6 +78,12 @@ p <- ggplot() +
 
 ###  显示地图
 print(p)
+
+### 保存地图
+ggsave(here("figures", "lab_sample_map.png"), 
+       plot = final_map, 
+       width = 10, height = 8, dpi = 300)
+
 ###  显示地图 改进后的版本
 map_plot <- ggplot() +
 #### 添加蓝色海洋背景
@@ -127,11 +140,17 @@ map_plot <- ggplot() +
 #### 显示地图
 print(map_plot)
 
+#### 使用here包统一保存路径到项目的figures目录
+save_path <- here("figures")
+
+#### 确保保存目录存在
+if (!dir.exists(save_path)) {
+  dir.create(save_path, recursive = TRUE)
+}
 ####  保存地图为不同格式
-save_path <- "C:/Users/17459/Desktop/"  
-ggsave(paste0(save_path, "map_improved.pdf"), map_plot, width = 11, height = 5, dpi = 300)
-ggsave(paste0(save_path, "map_improved.png"), map_plot, width = 11, height = 5, dpi = 300)
-ggsave(paste0(save_path, "map_improved.tif"), map_plot, width = 11, height = 5, dpi = 300)
+ggsave(here(save_path, "map_improved.pdf"), map_plot, width = 11, height = 5, dpi = 300)
+ggsave(here(save_path, "map_improved.png"), map_plot, width = 11, height = 5, dpi = 300)
+ggsave(here(save_path, "map_improved.tif"), map_plot, width = 11, height = 5, dpi = 300)
 
 # （二）食蟹猴体内 TRBV9+ T 细胞的耗竭效果
 文献：Targeted depletion of TRBV9+ T cells as immunotherapy in a patient with ankylosing spondylitis，Extended Data Fig. 1 TRBV9+ T cell depletion in monkeys.
