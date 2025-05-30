@@ -1,3 +1,10 @@
+# 项目说明
+本项目对以下文献的部分结果图进行了复现，包含：
+Liao H, Liu C, Zhou S, et al. Prophage-encoded antibiotic resistance genes are enriched in human-impacted environments. Nature Communications. 2024;15(1):8315. doi:10.1038/s41467-024-52450-y Fig.4a Fig.S8
+Targeted depletion of TRBV9+ T cells as immunotherapy in a patient with ankylosing spondylitis，Extended Data Fig. 1 TRBV9+ T cell depletion in monkeys.
+Accelerated waning of the humoral response to COVID-19 vaccines in obesity，Fig. 3. Immune response to third (booster) dose COVID-19 vaccination.
+Lee E. Korshoj & Tammy Kielian. (2024). Bacterial single-cell RNA sequencing captures biofilm transcriptional heterogeneity and differential responses to immune pressure. Nature Communications, 15(1), 10184-10184. DOI:10.1038/s41467-024-54581-8
+
 # （一）全球样本分布地图可视化项目
 来源：Liao H, Liu C, Zhou S, et al. Prophage-encoded antibiotic resistance genes are enriched in human-impacted environments. Nature Communications. 2024;15(1):8315. doi:10.1038/s41467-024-52450-y
 图4a
@@ -379,235 +386,23 @@ cexRow = 1.5：行标签（蛋白质名称）的字体大小为默认的 1.5 倍
 颜色条（ColSideColors）直观地区分了不同的簇。
 蛋白质名称显示在左侧，便于识别。
 列标签（簇名称）位于热图底部，水平排列且字体较大，提高可读性。
-# （六）雷达图绘制
+
+# （六）pAGC检出率雷达图绘制
 来源：Liao H, Liu C, Zhou S, et al. Prophage-encoded antibiotic resistance genes are enriched in human-impacted environments. Nature Communications. 2024;15(1):8315. doi:10.1038/s41467-024-52450-y（补充文件图S8）
 这段 R 代码主要用于读取多个文本文件中的数据，并使用ggradar包绘制雷达图展示不同类别数据的相关信息，最后将多个雷达图组合并保存。以下是详细的代码展示：
-## 代码解析
-### 加载所需的包
-library(ggradar)
-library(ggplot2)
-library(gridExtra)
-
-### 设置工作目录
-setwd("D:/thisthis/2024-2025-2/exam/data/detection frequency")
-
-### 读取各类数据文件
-data.Aquatic.organism <- read.delim('Aquatic organism pARG detection frequency.txt', header = T)
-data.food <- read.delim('food pARG detection frequency.txt', header = T)
-data.huamn <- read.delim('human pARG detection frequency.txt', header = T)
-data.Insects <- read.delim('insects pARG detection frequency.txt', header = T)
-data.animal.husbandry <- read.delim('livetock pARG detection frequency.txt', header = T)
-data.Plant <- read.delim('plant pARG detection frequency.txt', header = T)
-data.Seawater <- read.delim('seawater pARG detection frequency.txt', header = T)
-data.Sediment <- read.delim('sediments pARG detection frequency.txt', header = T)
-data.soil <- read.delim('Soil pARG detection frequency.txt', header = T)
-data.Wild.animal <- read.delim('wildlife pARG detection frequency.txt', header = T)
-data.Surface.water <- read.delim('Fresh water pARG detection frequency.txt', header = T)
-
-### 绘制food数据的雷达图
-range(data.food[, 2:12])
-p1 <- ggradar(plot.data = data.food,
-              grid.min = 0, 
-              grid.mid = 0.5, 
-              grid.max = 1,
-              grid.label.size = 10,
-              values.radar = c("0", "50%", "100%"),
-              background.circle.colour = "#C7E6F0",
-              fill = T,
-              fill.alpha = 0.2,  
-              group.line.width = 1, 
-              group.point.size = 3,
-              group.colours = c("#78A8C6")
-)
-p1
-ggsave("food prophageARGs检出率.pdf", p1, width = 12, height = 8)
-
-### 绘制animal.husbandry数据的雷达图
-range(data.animal.husbandry[, 2:12])
-p2 <- ggradar(plot.data = data.animal.husbandry,
-              grid.min = 0, 
-              grid.mid = 0.5, 
-              grid.max = 1,
-              grid.label.size = 10,
-              values.radar = c("0", "50%", "100%"),
-              background.circle.colour = "#C7E6F0",
-              fill = T,
-              fill.alpha = 0.2,  
-              group.line.width = 1, 
-              group.point.size = 3,
-              group.colours = c("#BEBADA")
-)
-p2
-ggsave("animal.husbandry prophageARGs检出率.pdf", p2, width = 12, height = 8)
-
-### 绘制huamn数据的雷达图
-range(data.huamn[, 2:12])
-p3 <- ggradar(plot.data = data.huamn,
-              grid.min = 0, 
-              grid.mid = 0.5, 
-              grid.max = 1,
-              grid.label.size = 10,
-              values.radar = c("0", "50%", "100%"),
-              background.circle.colour = "#C7E6F0",
-              fill = T,
-              fill.alpha = 0.2,  
-              group.line.width = 1, 
-              group.point.size = 3,
-              group.colours = c("#8DD3C7")
-)
-p3
-ggsave("human prophageARGs检出率.pdf", p3, width = 12, height = 8)
-
-### 绘制soil数据的雷达图
-range(data.soil[, 2:12])
-p4 <- ggradar(plot.data = data.soil,
-              grid.min = 0, 
-              grid.mid = 0.5, 
-              grid.max = 1,
-              grid.label.size = 10,
-              values.radar = c("0", "50%", "100%"),
-              background.circle.colour = "#C7E6F0",
-              fill = T,
-              fill.alpha = 0.2,  
-              group.line.width = 1, 
-              group.point.size = 3,
-              group.colours = c("#F37D74")
-)
-p4
-ggsave("soil prophageARGs检出率.pdf", p4, width = 12, height = 8)
-
-### 绘制Sediment数据的雷达图
-range(data.Sediment[, 2:12])
-p5 <- ggradar(plot.data = data.Sediment,
-              grid.min = 0, 
-              grid.mid = 0.5, 
-              grid.max = 1,
-              grid.label.size = 10,
-              values.radar = c("0", "50%", "100%"),
-              background.circle.colour = "#C7E6F0",
-              fill = T,
-              fill.alpha = 0.2,  
-              group.line.width = 1, 
-              group.point.size = 3,
-              group.colours = c("#BEE0BE")
-)
-p5
-ggsave("Sediment prophageARGs检出率.pdf", p5, width = 12, height = 8)
-
-### 绘制Wild.animal数据的雷达图
-range(data.Wild.animal[, 2:12])
-p6 <- ggradar(plot.data = data.Wild.animal,
-              grid.min = 0, 
-              grid.mid = 0.5, 
-              grid.max = 1,
-              grid.label.size = 10,
-              values.radar = c("0", "50%", "100%"),
-              background.circle.colour = "#C7E6F0",
-              fill = T,
-              fill.alpha = 0.2,  
-              group.line.width = 1, 
-              group.point.size = 3,
-              group.colours = c("#F5C2D9")
-)
-p6
-ggsave("Wild.animal prophageARGs检出率.pdf", p6, width = 12, height = 8)
-
-### 绘制Surface.water数据的雷达图
-range(data.Surface.water[, 2:12])
-p7 <- ggradar(plot.data = data.Surface.water,
-              grid.min = 0, 
-              grid.mid = 0.5, 
-              grid.max = 1,
-              grid.label.size = 10,
-              values.radar = c("0", "50%", "100%"),
-              background.circle.colour = "#C7E6F0",
-              fill = T,
-              fill.alpha = 0.2,  
-              group.line.width = 1, 
-              group.point.size = 3,
-              group.colours = c("#A0CE3A")
-)
-p7
-ggsave("Surface.water prophageARGs检出率.pdf", p7, width = 12, height = 8)
-
-### 绘制Aquatic.organism数据的雷达图
-range(data.Aquatic.organism[, 2:12])
-p8 <- ggradar(plot.data = data.Aquatic.organism,
-              grid.min = 0, 
-              grid.mid = 0.5, 
-              grid.max = 1,
-              grid.label.size = 10,
-              values.radar = c("0", "50%", "100%"),
-              background.circle.colour = "#C7E6F0",
-              fill = T,
-              fill.alpha = 0.2,  
-              group.line.width = 1, 
-              group.point.size = 3,
-              group.colours = c("#9D9E98")
-)
-p8
-ggsave("Aquatic.organism prophageARGs检出率.pdf", p8, width = 12, height = 8)
-
-### 绘制Insects数据的雷达图
-range(data.Insects[, 2:12])
-p9 <- ggradar(plot.data = data.Insects,
-              grid.min = 0, 
-              grid.mid = 0.5, 
-              grid.max = 1,
-              grid.label.size = 10,
-              values.radar = c("0", "50%", "100%"),
-              background.circle.colour = "#C7E6F0",
-              fill = T,
-              fill.alpha = 0.2,  
-              group.line.width = 1, 
-              group.point.size = 3,
-              group.colours = c("#AA7CB6")
-)
-p9
-ggsave("Insects prophageARGs检出率.pdf", p9, width = 12, height = 8)
-
-### 绘制Seawater数据的雷达图
-range(data.Seawater[, 2:12])
-p10 <- ggradar(plot.data = data.Seawater,
-               grid.min = 0, 
-               grid.mid = 0.5, 
-               grid.max = 1,
-               grid.label.size = 10,
-               values.radar = c("0", "50%", "100%"),
-               background.circle.colour = "#C7E6F0",
-               fill = T,
-               fill.alpha = 0.2,  
-               group.line.width = 1, 
-               group.point.size = 3,
-               group.colours = c("#F2E27B")
-)
-p10
-ggsave("Seawater prophageARGs检出率.pdf", p10, width = 12, height = 8)
-
-### 绘制Plant数据的雷达图
-range(data.Plant[, 2:12])
-p11 <- ggradar(plot.data = data.Plant,
-               grid.min = 0, 
-               grid.mid = 0.5, 
-               grid.max = 1,
-               grid.label.size = 10,
-               values.radar = c("0", "50%", "100%"),
-               background.circle.colour = "#C7E6F0",
-               fill = T,
-               fill.alpha = 0.2,  
-               group.line.width = 1, 
-               group.point.size = 3,
-               group.colours = c("#D37A0F")
-)
-p11
-ggsave("Plant prophageARGs检出率.pdf", p11, width = 12, height = 8)
-
-### 组合所有雷达图
-p <- grid.arrange(p3, p2, p1, p6, p7, p4, p8, p5, p11, p9, p10, ncol = 3, nrow = 4)
-p
-ggsave("检出率组合.pdf", p, width = 24, height = 18)
+## 项目结构
+``` r
+ /
+├── pAGC.Rproj              # RStudio 项目文件
+├── scripts/
+│   └── .R                  # 主分析脚本
+└── detection frequency/    # 数据
+    ├── Aquatic organism pARG detection frequency.txt
+    ├── food pARG detection frequency.txt
+    └── ......
+```
 ## 代码功能总结
 数据读取：从指定工作目录中读取多个文本文件，文件内容与不同类别（如食物、人类、土壤等）的 pARG 检测频率相关。
 雷达图绘制：针对每个数据集，使用ggradar函数绘制雷达图，设置了雷达图的网格范围、标签、背景颜色、填充颜色等参数，展示数据的分布情况。
-图形保存：将每个单独的雷达图保存为 PDF 文件，最后将所有雷达图组合成一个布局，并保存为 “检出率组合.pdf” ，方便整体展示和对比不同类别的数据特征。
+图形保存：将每个单独的雷达图保存为 PDF 文件，最后将所有雷达图组合成一个布局，方便整体展示和对比不同类别的数据特征。
 
