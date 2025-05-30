@@ -396,10 +396,12 @@ cexRow = 1.5：行标签（蛋白质名称）的字体大小为默认的 1.5 倍
 这段 R 代码主要用于读取多个文本文件中的数据，并使用ggradar包绘制雷达图展示不同类别数据的相关信息，最后将多个雷达图组合并保存。以下是详细的代码展示：
 ## 项目结构
 ``` r
- /
+ (六)pAGR检测频率雷达图/
 ├── pAGC.Rproj              # RStudio 项目文件
 ├── scripts/
-│   └── .R                  # 主分析脚本
+│   └── pARG_detection_frequency.R                  # 主分析脚本
+├── output/
+│   └── pAGR-detection-frequency.png
 └── detection frequency/    # 数据
     ├── Aquatic organism pARG detection frequency.txt
     ├── food pARG detection frequency.txt
