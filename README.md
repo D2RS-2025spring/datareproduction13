@@ -1,8 +1,12 @@
 # 项目说明
 本项目对以下文献的部分结果图进行了复现，包含：
+
 **1**Liao H, Liu C, Zhou S, et al. Prophage-encoded antibiotic resistance genes are enriched in human-impacted environments. Nature Communications. 2024;15(1):8315. doi:10.1038/s41467-024-52450-y Fig.4a Fig.S8
+
 **2**Targeted depletion of TRBV9+ T cells as immunotherapy in a patient with ankylosing spondylitis，Extended Data Fig. 1 TRBV9+ T cell depletion in monkeys.
+
 **3**Accelerated waning of the humoral response to COVID-19 vaccines in obesity，Fig. 3. Immune response to third (booster) dose COVID-19 vaccination.
+
 **4**Lee E. Korshoj & Tammy Kielian. (2024). Bacterial single-cell RNA sequencing captures biofilm transcriptional heterogeneity and differential responses to immune pressure. Nature Communications, 15(1), 10184-10184. DOI:10.1038/s41467-024-54581-8
 
 # （一）全球样本分布地图可视化项目
