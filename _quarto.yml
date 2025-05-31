@@ -1,0 +1,22 @@
+project:
+  type: book
+
+book:
+  title: "Group13 Reproducible Study"
+  author: "Group 13"
+  date: now
+  chapters:
+    - index.qmd
+    - one.qmd
+    - two.qmd
+    - three.qmd
+    - four.qmd
+    - five.qmd
+
+
+format:
+  html:
+    theme: cosmo
+
+
+
