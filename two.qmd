@@ -1,7 +1,6 @@
 # （二）箱型图-不同剂量处理下雄性和雌性猴子中TRBV9+T细胞的比例变化
 
 文献：Targeted depletion of TRBV9+ T cells as immunotherapy in a patient with ankylosing spondylitis，Extended Data Fig. 1 TRBV9+ T cell depletion in monkeys.
-不同剂量处理下雄性和雌性猴子中TRBV9+T细胞的比例变化
 
 需提前安装，`install.packages("ggplot2")`
 
