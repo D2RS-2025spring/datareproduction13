@@ -11,11 +11,10 @@ protein_expression <- matrix(runif(90), ncol = 5)
 colnames(protein_expression) <- paste("Cluster", 1:5, sep = "")
 rownames(protein_expression) <- paste("Protein", 1:18, sep = "")
 
-```{r}
+
 # 转化成matrix格式的数据
 mydata <- as.matrix(protein_expression)
 
-```{r}
 # 标签变量
 labs <- colnames(mydata)
 
