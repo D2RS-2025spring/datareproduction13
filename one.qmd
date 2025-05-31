@@ -9,7 +9,7 @@ library(dplyr)
 library(here)
 
 # 构建相对路径
-data_path <- here("data", "map-full.txt")
+data_path <- xfun::magic_path("map-full.txt")
 
 # 检查文件是否存在
 if (!file.exists(data_path)) {
@@ -33,8 +33,9 @@ data$habitat <- factor(data$habitat, levels = c(
   'Insect',
   'Seawater'
 ))
-world<-map_data("world")
-p <- ggplot() +
+world <- map_data("world")
+
+final_map <- ggplot() +
   geom_polygon(data=world,aes(x=long,y=lat,group=group),
                fill="#dedede")+
   geom_point(data=data,aes(x=longitude,y=latitude,fill=habitat,size=number),shape=21,alpha=0.6)+
@@ -45,44 +46,32 @@ p <- ggplot() +
   theme_void()
 
 print(final_map)
+```
 
+```{r}
+#| eval: false
 # 保存地图
 ggsave(here("figures", "lab_sample_map.png"), 
        plot = final_map, 
        width = 10, height = 8, dpi = 300)
+```
 
+```{r}
 # 输出摘要统计
 habitat_counts <- table(data$habitat)
 print("栖息地样本数量分布:")
 print(habitat_counts)
 
 # 输出统计结果到文件
-sink(here("output", "habitat_summary.txt"))
 cat("实验室样本统计摘要\n====================\n\n")
 cat("总样本数:", nrow(data), "\n\n")
 cat("栖息地分布:\n")
 print(habitat_counts)
 cat("\n经纬度范围:\n")
 print(summary(data[, c("longitude", "latitude")]))
-sink()
+```
 
-# 加载必要的包
-library(maps)
-library(ggplot2)
-library(dplyr)
-library(here)
-
-# 构建相对路径
-data_path <- here("data", "map-full.txt")
-
-# 检查文件是否存在
-if (!file.exists(data_path)) {
-  stop(paste("错误：文件不存在 -", data_path))
-}
-
-# 读取数据
-data <- read.delim(data_path, header = TRUE)
-
+```{r}
 # 设置因子水平
 data$habitat <- factor(data$habitat, levels = c(
   'Animal husbandry',
@@ -112,15 +101,10 @@ habitat_colors <- c(
   'Insect' = '#E6AB02',
   'Seawater' = '#66C2A5'
 )
+```
 
-# 获取世界地图数据
-world <- map_data("world")
-
-# 数据探索与验证
-head(data)
-summary(data)
-str(data)
-
+```{r}
+library(showtext)
 # 创建改进的地图
 map_plot <- ggplot() +
   annotate("rect", xmin = -180, xmax = 180, ymin = -90, ymax = 90, 
@@ -161,34 +145,19 @@ map_plot <- ggplot() +
   )
 
 print(map_plot)
+```
 
-# 使用here包统一保存路径到项目的figures目录
-save_path <- here("figures")
-
-# 确保保存目录存在
-if (!dir.exists(save_path)) {
-  dir.create(save_path, recursive = TRUE)
-}
-
-# 保存不同格式的地图
-ggsave(here(save_path, "map_improved.pdf"), map_plot, width = 11, height = 5, dpi = 300)
-ggsave(here(save_path, "map_improved.png"), map_plot, width = 11, height = 5, dpi = 300)
-ggsave(here(save_path, "map_improved.tif"), map_plot, width = 11, height = 5, dpi = 300)
-
+```{r}
 # 输出摘要统计
 habitat_counts <- table(data$habitat)
 print("栖息地样本数量分布:")
 print(habitat_counts)
 
 # 输出统计结果到文件
-sink(here("output", "habitat_summary.txt"))
 cat("实验室样本统计摘要\n====================\n\n")
 cat("总样本数:", nrow(data), "\n\n")
 cat("栖息地分布:\n")
 print(habitat_counts)
 cat("\n经纬度范围:\n")
 print(summary(data[, c("longitude", "latitude")]))
-sink()    
-
-
 ```
