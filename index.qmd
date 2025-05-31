@@ -1,5 +1,8 @@
 # Preface {.unnumbered}
 
 This is a Quarto book.
-
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+## 分工
+贺心雨：可视化模块实现（一），全球生境分布与数量可视化图
+汪文惠：可视化模块实现（二），绘制箱型图，展示不同剂量处理下，雄性和雌性猴子中TRBV9+T细胞的比例变化。
+李璇：可视化模块实现（四）、（五），绘制散点图以及热图，散点图为正常体重指数(BMI)个体在一定情况下变化，热图为不同蛋白质在不同聚类中的表达水平或特性。
+To learn more about Quarto books visit <https://quarto.org/docs/books>.、
