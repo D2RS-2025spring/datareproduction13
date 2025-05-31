@@ -1,0 +1,41 @@
+# （二）
+
+文献：Targeted depletion of TRBV9+ T cells as immunotherapy in a patient with ankylosing spondylitis，Extended Data Fig. 1 TRBV9+ T cell depletion in monkeys.
+代码如下：
+需提前安装，install.packages("ggplot2")
+
+```{r}
+library(ggplot2)
+mydata <- data.frame(
+  sex = c(rep("female", 19), rep("male", 20)),
+  dose = c(rep("control", 5), rep("3 mg/kg", 4), rep("10 mg/kg", 5), rep("30 mg/kg", 5),
+           rep("control", 5), rep("3 mg/kg", 5), rep("10 mg/kg", 4), rep("30 mg/kg", 6)),
+  values = c(113.5, 113.5, 82.7, 120.9, 106.5, 11, 5.8, 23.4, 10.3, 5.1, 16,
+             10.3, 7.5, 8.5, 5.8, 7.1, 12.5, 16, 15, 113.5, 93.9, 100, 88.1,
+             93.9, 12.5, 11, 5.1, 4.3, 9.1, 8.5, 13.3, 11.7, 5.1, 8.5, 11,
+             8, 22, 23.4, 5.8))
+
+head(mydata);tail(mydata)
+ggplot(mydata, aes(x = dose, y = values, colour = sex, fill = sex)) +
+  geom_boxplot(outlier.shape = NA, linewidth = 0.4) +
+  geom_point(size = 1, position = position_jitterdodge(0.11)) +
+  scale_x_discrete(limits = c("control", "3 mg/kg", "10 mg/kg", "30 mg/kg")) +
+  scale_y_continuous(limits = c(0, 150), breaks = seq(0, 150, 25)) +
+  scale_fill_manual(values = alpha(c("#E19841", "#50A87C"), 0.3)) +
+  scale_colour_manual(values = c("#E19841", "#50A87C")) +
+  annotate("segment", x = 1, xend = 2, y = 149, yend = 149) +
+  annotate("segment", x = 1, xend = 3, y = 138.5, yend = 138.5) +
+  annotate("segment", x = 1, xend = 4, y = 127, yend = 127) +
+  annotate("text", x = 1.5, y = 150, size = 5, label = "***") +
+  annotate("text", x = 2, y = 139.5, size = 5, label = "***") +
+  annotate("text", x = 2.5, y = 128, size = 5, label = "***") +
+  theme_bw() +
+  theme(legend.position = c(0.9, 0.65),
+        axis.text = element_text(size = 10),
+        axis.title = element_text(size = 12),
+        plot.margin = margin(20, 20, 20, 20)) +
+  labs(x = "dosage",
+       y = "Normalized TRBV9 \n proportion, RT-PCR",
+       fill = "",
+       colour = "")
+```
