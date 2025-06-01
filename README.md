@@ -419,12 +419,11 @@ cexRow = 1.5：行标签（蛋白质名称）的字体大小为默认的 1.5 倍
 
 ## 项目结构
 ``` r
-my_arg_project/
+（六）/
 ├── pAGC.Rproj       # RStudio 项目文件
 ├── scripts/
 │   └── pARG_detection_frequency.R             # 主分析脚本
-├── output/
-│   └── pAGR-detection-frequency.png  # 结果展示
+├── pAGR-detection-frequency.png  # 结果展示
 └── detection frequency/              # 数据文件
     ├── Aquatic organism pARG detection frequency.txt
     ├── food pARG detection frequency.txt
