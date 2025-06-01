@@ -276,7 +276,7 @@ legend_grob <- legendGrob(
     col = "white",
     fontsize = 10,  
     fontface = "bold",
-    cex = 3      
+    cex = 2     
   ),
   nrow = 6,       
   ncol = 2,        
@@ -304,5 +304,5 @@ print(final_polt)
 ```{r}
 #| eval: false
 # 保存带图例的组合图
-ggsave("pAGR-detection-frequency.png", final_plot, device = cairo_pdf, width = 24, height = 22)
+ggsave("pAGR-detection-frequency.png", final_plot, width = 18, height =16, dpi = 100, limitsize = FALSE)
 ```
