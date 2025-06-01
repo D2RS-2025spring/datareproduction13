@@ -256,8 +256,6 @@ p11 <- ggradar(plot.data =data.Plant,
 print(p11)
 ```
 ```{r}
-#| fig-width:24 
-#| fig-height: 22
 # 创建图例数据
 legend_data <- data.frame(
   Environment = c("Human", "Livestock", "Food", "Wildlife", "Fresh water", "Soil",
@@ -267,7 +265,6 @@ legend_data <- data.frame(
 )
 
 # 创建紧凑的图例
-#| eval: false
 legend_grob <- legendGrob(
   labels = legend_data$Environment,
   pch = 21, 
@@ -298,8 +295,13 @@ final_plot <- grid.arrange(
                  gp = gpar(fontsize = 40, fontface = "bold")),
   padding = unit(3, "cm")
 )
-print(final_polt)
 ```
+
+```{r}
+#| eval: false
+print(final_plot)
+```
+![最终组合图](https://github.com/D2RS-2025spring/datareproduction13/blob/main/%EF%BC%88%E5%85%AD%EF%BC%89pAGC%E6%A3%80%E5%87%BA%E9%A2%91%E7%8E%87%E9%9B%B7%E8%BE%BE%E5%9B%BE%E5%A4%8D%E7%8E%B0/pAGR-detection-frequency.png)
 
 ```{r}
 #| eval: false
