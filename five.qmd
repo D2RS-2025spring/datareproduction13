@@ -267,7 +267,7 @@ legend_data <- data.frame(
 )
 
 # 创建紧凑的图例
-library(grid)
+#| eval: false
 legend_grob <- legendGrob(
   labels = legend_data$Environment,
   pch = 21, 
@@ -300,6 +300,7 @@ final_plot <- grid.arrange(
 )
 print(final_polt)
 ```
+
 ```{r}
 #| eval: false
 # 保存带图例的组合图
