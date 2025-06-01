@@ -120,7 +120,8 @@ p4 <- ggradar(plot.data =data.soil,
 )
 print(p4)
 ```
-```{r}#| fig-width: 12
+```{r}#
+| fig-width: 12
 #| fig-height: 8
 range(data.Sediment[,2:12])
 p5 <- ggradar(plot.data =data.Sediment,
