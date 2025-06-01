@@ -6,6 +6,9 @@ engine: knitr
 encoding: UTF-8
 ---
 
+原文来源：Liao H, Liu C, Zhou S, et al. Prophage-encoded antibiotic resistance genes are enriched in human-impacted environments. Nature Communications. 2024;15(1):8315. doi:10.1038/s41467-024-52450-y
+Fig.S8
+
 ```{r}
 #| fig-width: 12
 #| fig-height: 11
