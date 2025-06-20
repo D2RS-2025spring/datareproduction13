@@ -9,7 +9,7 @@ book:
     - index.qmd
     - one.qmd
     - two.qmd
-    - Correlation analysis and significance of gene expression and pseudo-temporal trajectory.qmd        
+    - three.qmd
     - four.qmd
     - five.qmd
 
